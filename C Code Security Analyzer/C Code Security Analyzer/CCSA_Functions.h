@@ -20,9 +20,11 @@ namespace CCSA_Functions {
 		static bool is_method(string line);
 
 		/*Function counts the nuber of alloc's and free's in the main method*/
-		int* count_alloc_free();
+		/*int**/ static int* count_alloc_free(string filePath);
 
 		/*Function used to compare two integer values.*/
-		int Compare(int a, int b);
+		static int Compare(int a, int b);
+
+		static string get_Results(int result);
 	};
 }
