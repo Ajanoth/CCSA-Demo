@@ -11,17 +11,22 @@ using namespace std;
 string CCSA_Functions::MyCCSA_Functions::Run_Tests(string filePath) {
 	ifstream file (filePath);
 	string line;
+	/*output = Line containing errors that are to be returned to the GUI*/
 	string output = "Tests:\n \
 ========================================================================================\n";
 
+	// Check if file is open
 	if (file.is_open()) {
+		// Loop while you can get another line from the file
 		while (getline(file, line)) {
 			line = line + "\n";
-			//output = output + line;
+			output = output + line;											//REMOVEME - DEBUG -- Printing File lines to the screen.
 			std::wstring stemp = std::wstring(line.begin(), line.end());	//REMOVEME - DEBUG
 			LPCWSTR w = stemp.c_str();										//REMOVEME - DEBUG
 			OutputDebugString(w);											//REMOVEME - DEBUG
 		}
+
+		//End of loop so close file.
 		file.close();
 		//return output;
 	}
@@ -46,12 +51,13 @@ string CCSA_Functions::MyCCSA_Functions::Mem_Leak_Test(string filePath) {
  - Check that the file being tested contains code.\n\n";
 	}
 	else {
-		output = output + "File contains text.\n \
+		//output = output + "File contains text.\n \
  - File passed is_empty test.\n\n";
 	}
 	return output;
 }
 
+/*Function used to check if the file is empty.*/
 bool CCSA_Functions::MyCCSA_Functions::is_empty(string filePath) {
 	ifstream file(filePath);
 	
