@@ -193,9 +193,9 @@ Close: Exits the application.";
 	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 		//Browse... Button
 		openFileDialog1->InitialDirectory = "c:\\";
+		openFileDialog1->RestoreDirectory = true;
 		openFileDialog1->Filter = "C files (*.c)|*.c";
 		openFileDialog1->FilterIndex = 1;
-		openFileDialog1->RestoreDirectory = true;
 
 		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 			textBox1->Text = openFileDialog1->FileName;

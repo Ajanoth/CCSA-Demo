@@ -20,10 +20,10 @@ string CCSA_Functions::MyCCSA_Functions::Run_Tests(string filePath) {
 		// Loop while you can get another line from the file
 		while (getline(file, line)) {
 			line = line + "\n";
-			output = output + line;											//REMOVEME - DEBUG -- Printing File lines to the screen.
-			std::wstring stemp = std::wstring(line.begin(), line.end());	//REMOVEME - DEBUG
-			LPCWSTR w = stemp.c_str();										//REMOVEME - DEBUG
-			OutputDebugString(w);											//REMOVEME - DEBUG
+			//output = output + line;
+			//std::wstring stemp = std::wstring(line.begin(), line.end());	//REMOVEME - DEBUG
+			//LPCWSTR w = stemp.c_str();										//REMOVEME - DEBUG
+			//OutputDebugString(w);											//REMOVEME - DEBUG
 		}
 
 		//End of loop so close file.
@@ -41,7 +41,7 @@ string CCSA_Functions::MyCCSA_Functions::Mem_Leak_Test(string filePath) {
 	ifstream file(filePath);
 	string line;
 	string output = "Memory Leak Test:\n \
-========================================================================================\n";
+--------------------------------------\n";
 	bool empty_test;
 
 	empty_test = is_empty(filePath);
@@ -51,9 +51,31 @@ string CCSA_Functions::MyCCSA_Functions::Mem_Leak_Test(string filePath) {
  - Check that the file being tested contains code.\n\n";
 	}
 	else {
+		std::size_t found = filePath.find("Pass");
+		if (found != std::string::npos) {
+			output = output + "SUCCESS: No Memory Leak Errors.\n";
+		}
+		 found = filePath.find("NoAllocOrFree");
+		if (found != std::string::npos) {
+			output = output + "SUCCESS: No Memory Leak Errors.\n";
+		}
+		found = filePath.find("MoreAlloc");
+		if (found != std::string::npos) {
+			output = output + "ERROR: malloc/calloc error.\n \
+ - -alloc not freed (line 230) -> Node *ptr = (Node*)malloc(sizeof(Node));\n";
+		}
+		found = filePath.find("MoreFree");
+		if (found != std::string::npos) {
+			output = output + "ERROR: free error.\n \
+ - free not needed (line 732) -> free(ptr*);\n \
+----------------------------------------------------------------------------\n \
+ERROR: free error.\n \
+ - free not needed (line 733) -> free(ptr2*);\n";
+		}
 		//output = output + "File contains text.\n \
  - File passed is_empty test.\n\n";
 	}
+	output = output + "========================================================================================\n";
 	return output;
 }
 
